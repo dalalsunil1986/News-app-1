@@ -4,3 +4,6 @@ This repository will be updated almost daily or when something is finalized and 
 
 ## Update 11/OCT/2017:
 Created repository, added README.md
+
+## Update 12/OCT/2017:
+Created the Database Manager along with the Article class. Need to start working on the layouts, along with adding a new task and showing a task - Use one seperate layout with already programmed scroll layout along with images at the top. Structure: Title, Image, body, comments (if I have time).
