@@ -100,4 +100,11 @@ public class DatabaseManager {
         }
         return mArticle;
     }
+
+    public Article[] getArticlesOrderedByDate()
+    {
+        SQLiteDatabase mDb = mDbTool.getReadableDatabase();
+        Cursor cr = mDb.query(ARTICLE_TABLE, null, null, null, null, null, DATE+" DESC");
+
+    }
 }
