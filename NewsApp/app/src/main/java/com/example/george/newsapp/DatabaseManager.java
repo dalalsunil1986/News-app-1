@@ -104,7 +104,18 @@ public class DatabaseManager {
     public Article[] getArticlesOrderedByDate()
     {
         SQLiteDatabase mDb = mDbTool.getReadableDatabase();
-        Cursor cr = mDb.query(ARTICLE_TABLE, null, null, null, null, null, DATE+" DESC");
-
+        Cursor mCr = mDb.query(ARTICLE_TABLE, null, null, null, null, null, DATE+" DESC");
+        if(mCr.getCount()!=0)
+        {
+            mCr.moveToFirst();
+            Article[] mArticles = new Article[mCr.getCount()];
+            for (int i=0; i<mCr.getCount();i++)
+            {
+                mArticles[i]=new Article(mCr.getInt(0), mCr.getString(1), mCr.getString(2), mCr.getBlob(3), mCr.getString(4), mCr.getString(5), mCr.getString(6), mCr.getString(7));
+                mCr.moveToNext();
+            }
+            return mArticles;
+        }
+        return null;
     }
 }
