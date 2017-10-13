@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by George on 11-Oct-17.
@@ -13,8 +14,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseManager {
 
     // We define the version of the database and it's name
-    public static final String DB_NAME = "NewsDB";
-    public static final int DB_VER=1;
+    public static final String DB_NAME = "MyDB";
+    public static final int DB_VER=2;
 
     // We define the table name here:
     public static final String ARTICLE_TABLE = "ARTICLES";
@@ -31,7 +32,7 @@ public class DatabaseManager {
     public final DatabaseTool mDbTool;
 
     public static final String TABLE_ARTICLE_SCRIPT = "CREATE TABLE "+ARTICLE_TABLE+" ("+ID+" integer primary key autoincrement, "
-            + TITLE+" text not null, "
+            + TITLE +" text not null, "
             + BODY + " text not null, "
             + AUTHOR + " text not null, "
             + DATE + " text not null, "
@@ -40,6 +41,7 @@ public class DatabaseManager {
             + PHOTOS + " blob)";
 
     public DatabaseManager(Context context) {
+
         mDbTool = new DatabaseTool(context, DB_NAME, null, DB_VER);
     }
 
@@ -50,7 +52,7 @@ public class DatabaseManager {
 
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
-            sqLiteDatabase.execSQL("drop table if exists "+DB_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ARTICLE_TABLE);
             sqLiteDatabase.execSQL(TABLE_ARTICLE_SCRIPT);
         }
 
@@ -67,11 +69,11 @@ public class DatabaseManager {
         ContentValues mCv = new ContentValues();
         mCv.put(TITLE, title);
         mCv.put(BODY, body);
-        mCv.put(PHOTOS, photo);
         mCv.put(AUTHOR, author);
         mCv.put(DATE, date);
         mCv.put(TIME, time);
         mCv.put(REGION, region);
+        mCv.put(PHOTOS, photo);
         mDbTool.getWritableDatabase().insert(ARTICLE_TABLE, null, mCv);
     }
 
@@ -80,11 +82,11 @@ public class DatabaseManager {
         ContentValues mCv = new ContentValues();
         mCv.put(TITLE, mArticle.getTitle());
         mCv.put(BODY, mArticle.getBody());
-        mCv.put(PHOTOS, mArticle.getPhoto());
         mCv.put(AUTHOR, mArticle.getAuthor());
         mCv.put(DATE, mArticle.getDate());
         mCv.put(TIME, mArticle.getTime());
         mCv.put(REGION, mArticle.getRegion());
+        mCv.put(PHOTOS, mArticle.getPhoto());
         mDbTool.getWritableDatabase().insert(ARTICLE_TABLE, null, mCv);
     }
 
@@ -92,11 +94,12 @@ public class DatabaseManager {
     {
         SQLiteDatabase mDb = mDbTool.getReadableDatabase();
         Article mArticle=null;
+
         Cursor mCr = mDb.query(ARTICLE_TABLE, null, ID+"="+id, null, null, null, null);
         if(mCr.getCount()!=0)
         {
             mCr.moveToFirst();
-            mArticle = new Article(mCr.getInt(0), mCr.getString(1), mCr.getString(2), mCr.getBlob(3), mCr.getString(4), mCr.getString(5), mCr.getString(6), mCr.getString(7));
+            mArticle = new Article(mCr.getInt(0), mCr.getString(1), mCr.getString(2), mCr.getString(3), mCr.getString(4), mCr.getString(5), mCr.getString(6), mCr.getBlob(7));
         }
         return mArticle;
     }
@@ -104,18 +107,24 @@ public class DatabaseManager {
     public Article[] getArticlesOrderedByDate()
     {
         SQLiteDatabase mDb = mDbTool.getReadableDatabase();
-        Cursor mCr = mDb.query(ARTICLE_TABLE, null, null, null, null, null, DATE+" DESC");
+        Cursor mCr = mDb.query(ARTICLE_TABLE, null , null, null, null, null, DATE+" DESC");
+        mCr.moveToFirst();
         if(mCr.getCount()!=0)
         {
-            mCr.moveToFirst();
             Article[] mArticles = new Article[mCr.getCount()];
+            Log.e("Articles", "Count: "+mCr.getCount());
             for (int i=0; i<mCr.getCount();i++)
             {
-                mArticles[i]=new Article(mCr.getInt(0), mCr.getString(1), mCr.getString(2), mCr.getBlob(3), mCr.getString(4), mCr.getString(5), mCr.getString(6), mCr.getString(7));
+                mArticles[i]=new Article(mCr.getInt(0), mCr.getString(1), mCr.getString(2), mCr.getString(3), mCr.getString(4), mCr.getString(5), mCr.getString(6), mCr.getBlob(7));
                 mCr.moveToNext();
             }
             return mArticles;
         }
         return null;
+    }
+
+    public void WipeTable()
+    {
+        mDbTool.getWritableDatabase().delete(ARTICLE_TABLE, null, null);
     }
 }

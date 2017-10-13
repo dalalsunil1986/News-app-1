@@ -13,3 +13,6 @@ Began working on the functions for the articles, working on the get articles des
 
 ## Update 13/OCT/2017 19:55:
 Finished sorting the results descending per date inside the getArticlesByDate inside the database manager.
+
+## Update 13/OCT/2017 23:15:
+Updated the database manager properly, began with the layout and finished rendering all the articles per date and showing them in the main page after retrieving them from the database properly. Added WipeTable and addArticle in case these functions are needed to wipe the table in the database or add a dummy article for testing. The current main page only shows 10 articles at the maximum, and that could be changed inside the MainActivity's renderArticlesPerDate.

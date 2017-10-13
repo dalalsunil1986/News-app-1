@@ -11,24 +11,23 @@ public class Article {
     protected int id;
     protected String title;
     protected String body;
-    protected byte[] photo;
     protected String author;
     protected String date;
     protected String time;
     protected String region;
+    protected byte[] photo;
 
-
-    public Article(int id, String title, String body, byte[] photo, String author, String date, String time, String region) {
-
+    public Article(int id, String title, String body, String author, String date, String time, String region, byte[] photo) {
         this.id = id;
         this.title = title;
         this.body = body;
-        this.photo = photo;
         this.author = author;
         this.date = date;
         this.time = time;
         this.region = region;
+        this.photo = photo;
     }
+
 
     public int getId() {
         return id;
