@@ -16,3 +16,6 @@ Finished sorting the results descending per date inside the getArticlesByDate in
 
 ## Update 13/OCT/2017 23:15:
 Updated the database manager properly, began with the layout and finished rendering all the articles per date and showing them in the main page after retrieving them from the database properly. Added WipeTable and addArticle in case these functions are needed to wipe the table in the database or add a dummy article for testing. The current main page only shows 10 articles at the maximum, and that could be changed inside the MainActivity's renderArticlesPerDate.
+
+## Update 14/OCT/2017 10:15:
+Added the article view class, still didnt work on it. Need to change from local SQLite Database to a firebase database, already initated and set up in the android studio. Need to begin working on viewing the article inside the xml file using the article view class.
