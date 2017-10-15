@@ -23,3 +23,6 @@ Added the article view class, still didnt work on it. Need to change from local 
 
 ## Update 15/OCT/2017 15:40:
 Changed the application from local SQLite databases to Firebase.
+
+## Update 15/OCT/2017 16:20:
+Added the Add Article activity, finalized the render articles from database, along with adding the article into Firebase without any errors. Need to work on article view which shows one specific article, along with researching about the media storage on firebase for the photos.

@@ -1,6 +1,7 @@
 package com.example.george.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.health.PackageHealthStats;
@@ -22,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseManager mDb;
     ScrollView mScroller;
     LinearLayout mLayout;
     @Override
@@ -30,9 +30,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.deleteDatabase("NewsDB");
-        mDb = new DatabaseManager(this);
         mScroller = (ScrollView)findViewById(R.id.scrollView);
         mLayout = mScroller.findViewById(R.id.innerLayout);
+        renderArticlesPerDate();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         renderArticlesPerDate();
     }
 
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mArticlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mLayout.removeAllViews();
                 Log.e("Data", "Changed");
                 int count = Integer.parseInt(dataSnapshot.child("/Count").getValue().toString());
                 for(int i=0;i<count&& i<10;i++)
@@ -54,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
                     LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService
                             (Context.LAYOUT_INFLATER_SERVICE);
                     View articleSection = inflater.inflate(R.layout.article_section, null);
-                    ((TextView) articleSection.findViewById(R.id.titleText)).setText(mArticle.getTitle());
-                    ((TextView) articleSection.findViewById(R.id.dateView)).setText(mArticle.getDate() + ", " + mArticle.getTime());
+                    articleSection.setOnClickListener(layoutClicker);
+                    articleSection.setTag(i);
+                    ((TextView) articleSection.findViewById(R.id.titleText)).setText(mArticle.Title);
+                    ((TextView) articleSection.findViewById(R.id.dateView)).setText(mArticle.Date + ", " + mArticle.Time);
                     mLayout.addView(articleSection);
                 }
 //                return myArticles;
@@ -68,4 +76,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void renderArticle(View v)
+    {
+        int tag = Integer.parseInt(v.getTag().toString());
+        Intent viewArticle = new Intent(this, Article_view.class);
+        startActivity(viewArticle);
+    }
+
+    View.OnClickListener layoutClicker = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            renderArticle(view);
+        }
+    };
+
+    public void addArticlePage(View v)
+    {
+        Intent addArticle = new Intent(this, AddArticle.class);
+        startActivity(addArticle);
+    }
 }
