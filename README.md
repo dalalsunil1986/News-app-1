@@ -1,4 +1,5 @@
 # School Project - Android app
+
 This is a repository for an application that is being developed for a school project - an Android news application that works locally using SQLite databases on android systems.
 This repository will be updated almost daily or when something is finalized and is fully working, and notes for the update will be written down in the readme file (here) with the date of the update. Each commit will have the date of the update in the comment to help distinguish updates.
 
@@ -19,3 +20,6 @@ Updated the database manager properly, began with the layout and finished render
 
 ## Update 14/OCT/2017 10:15:
 Added the article view class, still didnt work on it. Need to change from local SQLite Database to a firebase database, already initated and set up in the android studio. Need to begin working on viewing the article inside the xml file using the article view class.
+
+## Update 15/OCT/2017 15:40:
+Changed the application from local SQLite databases to Firebase.

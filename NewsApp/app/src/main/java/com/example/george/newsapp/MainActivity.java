@@ -6,12 +6,19 @@ import android.graphics.BitmapFactory;
 import android.os.health.PackageHealthStats;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,25 +38,34 @@ public class MainActivity extends AppCompatActivity {
 
     protected void renderArticlesPerDate()
     {
-        Article[] mArticles = mDb.getArticlesOrderedByDate();
-        if(mArticles!=null) {
-            for (int i = 0; i < mArticles.length && i<10; i++) {
-                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService
-                        (Context.LAYOUT_INFLATER_SERVICE);
-                View articleSection = inflater.inflate(R.layout.article_section, null);
-                ((TextView) articleSection.findViewById(R.id.titleText)).setText(mArticles[i].getTitle());
-                ((TextView) articleSection.findViewById(R.id.dateView)).setText(mArticles[i].getDate() + ", " + mArticles[i].getTime());
-                byte[] byteArray = mArticles[i].getPhoto();
-                Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                ((ImageView) articleSection.findViewById(R.id.thumbnailView)).setImageBitmap(bm);
-                mLayout.addView(articleSection);
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference mArticlesRef = mDatabase.getReference().child("/Articles");
+        Log.e("Listener", "Adding");
+        mArticlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("Data", "Changed");
+                int count = Integer.parseInt(dataSnapshot.child("/Count").getValue().toString());
+                for(int i=0;i<count&& i<10;i++)
+                {
+                    Log.e("Data", "Entered the loop");
+                    DataSnapshot currentArticle = dataSnapshot.child("/"+i);
+                    Article mArticle = new Article(i, currentArticle.child("Title").getValue().toString(), currentArticle.child("Body").getValue().toString(), currentArticle.child("Author").getValue().toString(), currentArticle.child("Date").getValue().toString(), currentArticle.child("Time").getValue().toString(), currentArticle.child("Region").getValue().toString());
+                    LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService
+                            (Context.LAYOUT_INFLATER_SERVICE);
+                    View articleSection = inflater.inflate(R.layout.article_section, null);
+                    ((TextView) articleSection.findViewById(R.id.titleText)).setText(mArticle.getTitle());
+                    ((TextView) articleSection.findViewById(R.id.dateView)).setText(mArticle.getDate() + ", " + mArticle.getTime());
+                    mLayout.addView(articleSection);
+                }
+//                return myArticles;
             }
-        }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    protected void addArticle()
-    {
-        Article mArt = new Article(0, "My Article", "This is the body", "I am the author", "13/OCT/2017", "10:30 PM", "Nazareth", new byte[0]);
-        mDb.addArticleByObject(mArt);
-    }
 }
