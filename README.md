@@ -29,3 +29,6 @@ Added the Add Article activity, finalized the render articles from database, alo
 
 ## Update 16/OCT/2017 10:20:
 Added the upload photo to firebase storage buckets, giving the photos the ID of the last article so they can add articles. Added the photo link into the article and it stores in the firebase. Still need to work on viewing the article and the view all articles to add the thumbnail from the firebase.
+
+## Update 16/OCT/2017 12:15:
+Fully added the upload photos and now showing the photos in the view all artices page.
