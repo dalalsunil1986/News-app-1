@@ -91,6 +91,7 @@
             android:layout_width="50sp"
             android:layout_height="50sp"
             android:background="#FFFFFF"
+            android:onClick="dispatchTakePictureIntent"
             android:src="@android:drawable/ic_menu_camera" />
 
         <Space

@@ -1,5 +1,7 @@
 package com.example.george.newsapp;
 
+import android.net.Uri;
+
 import java.util.Arrays;
 
 /**
@@ -15,7 +17,7 @@ public class Article {
     public String Date;
     public String Time;
     public String Region;
-    public byte[] photo;
+    public String photo;
 
 
     public Article(int id, String title, String body, String author, String date, String time, String region) {
@@ -27,5 +29,16 @@ public class Article {
         Date = date;
         Time = time;
         Region = region;
+    }
+
+    public Article(int id, String title, String body, String author, String date, String time, String region, String photo) {
+        this.id = id;
+        Title = title;
+        Body = body;
+        Author = author;
+        Date = date;
+        Time = time;
+        Region = region;
+        this.photo = photo;
     }
 }

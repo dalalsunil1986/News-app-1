@@ -26,3 +26,6 @@ Changed the application from local SQLite databases to Firebase.
 
 ## Update 15/OCT/2017 16:20:
 Added the Add Article activity, finalized the render articles from database, along with adding the article into Firebase without any errors. Need to work on article view which shows one specific article, along with researching about the media storage on firebase for the photos.
+
+## Update 16/OCT/2017 10:20:
+Added the upload photo to firebase storage buckets, giving the photos the ID of the last article so they can add articles. Added the photo link into the article and it stores in the firebase. Still need to work on viewing the article and the view all articles to add the thumbnail from the firebase.
