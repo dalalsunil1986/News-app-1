@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     {
         int tag = Integer.parseInt(v.getTag().toString());
         Intent viewArticle = new Intent(this, Article_view.class);
+        viewArticle.putExtra("Article tag", tag);
         startActivity(viewArticle);
     }
 

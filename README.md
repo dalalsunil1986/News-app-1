@@ -32,3 +32,6 @@ Added the upload photo to firebase storage buckets, giving the photos the ID of 
 
 ## Update 16/OCT/2017 12:15:
 Fully added the upload photos and now showing the photos in the view all artices page.
+
+## Update 17/OCT/2017:
+Added the show article along with showing the photo and the data from firebase successfully. App finalized; version 1.
