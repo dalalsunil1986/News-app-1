@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.deleteDatabase("NewsDB");
         mScroller = (ScrollView)findViewById(R.id.scrollView);
         mLayout = mScroller.findViewById(R.id.innerLayout);
         renderArticlesPerDate();
